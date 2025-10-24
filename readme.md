@@ -1,8 +1,4 @@
-Perfeito! Aqui está a versão **manual rápido**, 1 página, direto ao ponto, para usuários finais, em Markdown:
-
----
-
-# **Manual Rápido - ProvaBolhaDetectorApp**
+# **Manual Rápido - Corretor de Prova App**
 
 ## **Objetivo**
 
