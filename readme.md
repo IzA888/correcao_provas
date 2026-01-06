@@ -60,8 +60,4 @@ Corrigir provas de múltipla escolha escaneadas em PDF de forma automática e ge
 * Mantenha os PDFs **claros e alinhados**.
 * Se algumas respostas não forem detectadas, ajustes podem ser feitos nos parâmetros internos (`FILL_THRESHOLD`, `MIN_BLOB_AREA`, `MAX_BLOB_AREA`) no código.
 
----
 
-Se quiser, posso fazer também uma **versão ilustrada**, com screenshots do FXML e setas indicando onde clicar, perfeita para imprimir ou enviar aos professores.
-
-Quer que eu faça essa versão ilustrada?
