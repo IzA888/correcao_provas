@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.app</groupId>
     <artifactId>correcao_provas</artifactId>
@@ -35,12 +35,12 @@
             <version>4.9.0-1.5.10</version>
         </dependency>
 
-		<!-- Tesseract dependency for JavaCV -->
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>tesseract-platform</artifactId>
-			<version>5.3.4-1.5.10</version>
-		</dependency>
+        <!-- Tesseract dependency for JavaCV -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>tesseract-platform</artifactId>
+            <version>5.3.4-1.5.10</version>
+        </dependency>
 
         <!-- Apache POI para gerar .xlsx -->
         <dependency>
@@ -59,6 +59,82 @@
                     <release>11</release>
                 </configuration>
             </plugin>
+
+            <!-- 1. Configuração do JAR Simples -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.app.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- 2. Geração do JAR Completo (Fat JAR com dependências) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.app.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 3. Empacotamento do Executável com jpackage -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>create-exe</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="jpackage">
+                                    <!-- Use 'app-image' para gerar a pasta do app ou 'exe' se tiver o WiX Toolset instalado -->
+                                    <arg value="--type" />
+                                    <arg value="app-image" />
+                                    <arg value="--dest" />
+                                    <arg value="${project.build.directory}" />
+                                    <arg value="--input" />
+                                    <arg value="${project.build.directory}" />
+                                    <arg value="--main-jar" />
+                                    <arg value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+                                    <arg value="--main-class" />
+                                    <arg value="com.app.Launcher" />
+                                    <arg value="--name" />
+                                    <arg value="${project.artifactId}" />
+                                    <arg value="--win-console" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -69,7 +145,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.app.App</mainClass>
+                            <mainClass>com.app.ProvaBolhaDetectorApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>

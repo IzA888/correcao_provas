@@ -1,0 +1,18 @@
+# Build output
+**/target
+build/
+out/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.iml
+.classpath
+.project
+/.settings/
+
+# IDEs
+.vscode/
